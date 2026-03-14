@@ -1,0 +1,126 @@
+{
+  "basic_filters": {
+    "location": ["北京"],
+    "internship_type": ["日常实习"],
+    "education": ["本科", "本科及以上", "不限", "本科在读"],
+    "graduation_year": ["2028", "不限", "本科及以上", "在校生", "大学生"],
+    "min_work_days_per_week": 3,
+    "min_internship_duration_months": 3
+  },
+  "keywords": {
+    "required": [
+      "音乐活动策划",
+      "经纪人",
+      "经纪助理",
+      "自媒体运营",
+      "新媒体运营",
+      "音乐运营",
+      "演出策划",
+      "演出执行",
+      "活动策划执行",
+      "演出统筹",
+      "音乐内容营销",
+      "演出项目策划",
+      "演出项目助理",
+      "活动策划",
+      "宣传",
+      "舞台监督",
+      "演出运营",
+      "演出项目管理",
+      "活动宣传"
+    ],
+    "optional": [
+      "音乐",
+      "演出",
+      "活动",
+      "策划",
+      "运营",
+      "宣传",
+      "推广",
+      "营销",
+      "执行",
+      "统筹",
+      "管理"
+    ]
+  },
+  "company_priorities": {
+    "P0": [
+      "腾讯",
+      "腾讯音乐",
+      "QQ音乐",
+      "酷狗音乐",
+      "酷我音乐",
+      "字节跳动",
+      "抖音",
+      "网易云音乐",
+      "网易"
+    ],
+    "P1": [
+      "索尼音乐",
+      "索尼音乐娱乐",
+      "环球音乐",
+      "UMG",
+      "华纳音乐",
+      "华纳"
+    ],
+    "P2": [
+      "太合音乐",
+      "太合音乐集团",
+      "摩登天空",
+      "ModernSky",
+      "风华秋实",
+      "滚石唱片",
+      "种梦音乐",
+      "华研国际",
+      "相信音乐",
+      "福茂唱片"
+    ],
+    "P3": [
+      "吴氏策划",
+      "保利剧院",
+      "无限星空音乐",
+      "雨乐音乐",
+      "九天星韵"
+    ]
+  },
+  "scoring_rules": {
+    "P0_company": 10,
+    "P1_company": 8,
+    "P2_company": 5,
+    "P3_company": 2,
+    "explicit_2028": 5,
+    "work_days_3_or_less": 5,
+    "work_days_4": 2,
+    "work_days_5_or_more": 0,
+    "music_major_preferred": 2,
+    "relevant_experience": 2
+  },
+  "exclude_keywords": [
+    "应届生",
+    "全职",
+    "社招",
+    "校招全职",
+    "正职",
+    "正式员工"
+  ],
+  "data_sources": {
+    "wechat_accounts": [
+      "腾讯招聘",
+      "字节跳动招聘",
+      "网易云音乐招聘",
+      "QQ音乐招聘",
+      "酷狗音乐招聘",
+      "太合音乐集团",
+      "摩登天空ModernSky",
+      "索尼音乐招聘",
+      "环球音乐招聘",
+      "华纳音乐招聘"
+    ],
+    "websites": [
+      "https://www.zhipin.com",
+      "https://www.shixiseng.com",
+      "https://www.liepin.com",
+      "https://www.nowcoder.com"
+    ]
+  }
+}

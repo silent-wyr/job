@@ -1,0 +1,164 @@
+{
+  "companies": [
+    {
+      "name": "腾讯音乐",
+      "aliases": ["QQ音乐", "酷狗音乐", "酷我音乐", "腾讯音乐娱乐集团"],
+      "priority": "P0",
+      "wechat_accounts": ["QQ音乐招聘", "腾讯音乐招聘", "腾讯招聘"],
+      "website": "https://jobs.tencent.com",
+      "industries": ["互联网", "音乐", "娱乐"],
+      "location": "北京",
+      "business_lines": ["音乐流媒体", "音乐版权", "音乐社交"]
+    },
+    {
+      "name": "字节跳动",
+      "aliases": ["ByteDance", "抖音", "TikTok"],
+      "priority": "P0",
+      "wechat_accounts": ["字节跳动招聘", "抖音招聘"],
+      "website": "https://jobs.bytedance.com",
+      "industries": ["互联网", "短视频", "音乐"],
+      "location": "北京",
+      "business_lines": ["短视频", "音乐垂类", "音乐版权"]
+    },
+    {
+      "name": "网易云音乐",
+      "aliases": ["网易音乐", "NetEase Cloud Music", "网易云"],
+      "priority": "P0",
+      "wechat_accounts": ["网易云音乐招聘", "网易游戏招聘", "网易招聘"],
+      "website": "https://hr.163.com",
+      "industries": ["互联网", "音乐", "娱乐"],
+      "location": "北京",
+      "business_lines": ["音乐流媒体", "音乐社交", "音乐版权"]
+    },
+    {
+      "name": "索尼音乐娱乐",
+      "aliases": ["Sony Music", "SME", "索尼音乐"],
+      "priority": "P1",
+      "wechat_accounts": ["索尼音乐招聘"],
+      "website": "https://www.sonymusic.com",
+      "industries": ["音乐", "唱片", "版权管理"],
+      "location": "北京",
+      "business_lines": ["唱片发行", "艺人经纪", "版权授权"]
+    },
+    {
+      "name": "环球音乐",
+      "aliases": ["Universal Music", "UMG", "环球音乐集团"],
+      "priority": "P1",
+      "wechat_accounts": ["环球音乐招聘"],
+      "website": "https://www.universalmusic.com",
+      "industries": ["音乐", "唱片", "版权管理"],
+      "location": "北京",
+      "business_lines": ["唱片发行", "艺人经纪", "版权授权"]
+    },
+    {
+      "name": "华纳音乐",
+      "aliases": ["Warner Music", "华纳"],
+      "priority": "P1",
+      "wechat_accounts": ["华纳音乐招聘"],
+      "website": "https://www.wmg.com",
+      "industries": ["音乐", "唱片", "版权管理"],
+      "location": "北京",
+      "business_lines": ["唱片发行", "艺人经纪", "版权授权"]
+    },
+    {
+      "name": "太合音乐集团",
+      "aliases": ["太合音乐", "Taihe Music"],
+      "priority": "P2",
+      "wechat_accounts": ["太合音乐集团", "太合音乐招聘"],
+      "website": "https://www.taihe.com",
+      "industries": ["音乐", "演出", "版权"],
+      "location": "北京朝阳区三里屯",
+      "business_lines": ["麦田音乐节", "音乐版权", "艺人经纪", "音乐制作"]
+    },
+    {
+      "name": "摩登天空",
+      "aliases": ["ModernSky", "摩登天空"],
+      "priority": "P2",
+      "wechat_accounts": ["摩登天空ModernSky", "摩登天空招聘"],
+      "website": "https://www.modernsky.com",
+      "industries": ["音乐", "演出", "艺人经纪"],
+      "location": "北京",
+      "business_lines": ["草莓音乐节", "艺人经纪", "唱片发行"]
+    },
+    {
+      "name": "风华秋实",
+      "aliases": ["风华秋实集团"],
+      "priority": "P2",
+      "wechat_accounts": ["风华秋实集团"],
+      "website": "https://www.fenghuaqiushi.com",
+      "industries": ["音乐", "演出", "艺人管理"],
+      "location": "北京",
+      "business_lines": ["版权管理", "音乐制作", "艺人管理", "演出项目"]
+    },
+    {
+      "name": "滚石唱片",
+      "aliases": ["Rock Records", "滚石"],
+      "priority": "P2",
+      "wechat_accounts": ["滚石唱片"],
+      "website": "https://www.rockrecords.com.tw",
+      "industries": ["音乐", "唱片", "版权"],
+      "location": "北京",
+      "business_lines": ["唱片发行", "艺人经纪", "音乐IP开发"]
+    },
+    {
+      "name": "种梦音乐",
+      "aliases": ["种梦", "DMG"],
+      "priority": "P2",
+      "wechat_accounts": ["种梦音乐"],
+      "website": "https://www.dm-music.com",
+      "industries": ["音乐", "说唱", "艺人经纪"],
+      "location": "北京朝阳区达美中心",
+      "business_lines": ["说唱音乐", "艺人经纪", "演出项目"]
+    },
+    {
+      "name": "吴氏策划",
+      "aliases": ["Wu Promotion"],
+      "priority": "P3",
+      "wechat_accounts": ["吴氏策划"],
+      "website": "https://www.wupromotion.com",
+      "industries": ["演出", "文化", "艺术"],
+      "location": "北京",
+      "business_lines": ["演出项目管理", "国外演出引进"]
+    },
+    {
+      "name": "保利剧院",
+      "aliases": ["北京保利剧院", "保利"],
+      "priority": "P3",
+      "wechat_accounts": ["保利剧院"],
+      "website": "http://www.polytheatre.com",
+      "industries": ["演出", "剧院管理"],
+      "location": "北京",
+      "business_lines": ["演出运营", "剧院管理"]
+    },
+    {
+      "name": "无限星空音乐",
+      "aliases": ["无限星空"],
+      "priority": "P3",
+      "wechat_accounts": ["无限星空音乐"],
+      "website": "https://www.sky-star.com",
+      "industries": ["音乐", "营销"],
+      "location": "北京",
+      "business_lines": ["营销推广", "音乐运营", "平面设计"]
+    },
+    {
+      "name": "雨乐音乐",
+      "aliases": ["雨乐"],
+      "priority": "P3",
+      "wechat_accounts": ["雨乐音乐"],
+      "website": "https://www.yule-music.com",
+      "industries": ["音乐", "艺人经纪"],
+      "location": "北京朝阳区三里屯SOHO",
+      "business_lines": ["经纪人", "艺人签约", "艺人推广"]
+    },
+    {
+      "name": "九天星韵文化",
+      "aliases": ["九天星韵"],
+      "priority": "P3",
+      "wechat_accounts": ["九天星韵文化"],
+      "website": "https://www.jiutianxinyun.com",
+      "industries": ["演出", "活动策划"],
+      "location": "北京",
+      "business_lines": ["演出统筹", "活动策划执行"]
+    }
+  ]
+}
