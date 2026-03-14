@@ -19,6 +19,7 @@ import csv
 import sys
 import json
 import argparse
+import subprocess
 from datetime import datetime, timedelta
 
 # ─────────────────────────────────────────────
@@ -177,6 +178,59 @@ def generate_html(jobs: list, template_path: str, output_path: str,
 
 
 # ─────────────────────────────────────────────
+# Git 自动推送
+# ─────────────────────────────────────────────
+
+def git_push(repo_dir: str, html_src: str) -> bool:
+    """
+    将生成的 index.html 复制到仓库根目录，然后 git add / commit / push。
+    返回 True 表示推送成功，False 表示跳过或失败。
+    """
+    import shutil
+
+    dest_html = os.path.join(repo_dir, 'index.html')
+
+    # 复制 index.html 到仓库根目录（GitHub Pages 读取根目录的 index.html）
+    shutil.copy2(html_src, dest_html)
+
+    now_str = datetime.now().strftime('%Y-%m-%d %H:%M')
+    commit_msg = f'update: 实习岗位更新 {now_str}'
+
+    try:
+        # 检查是否有变动
+        result = subprocess.run(
+            ['git', 'status', '--porcelain'],
+            cwd=repo_dir, capture_output=True, text=True
+        )
+        if not result.stdout.strip():
+            print("      [SKIP] 内容无变化，无需推送")
+            return True
+
+        cmds = [
+            ['git', 'add', 'index.html'],
+            ['git', 'commit', '-m', commit_msg],
+            ['git', 'push', 'origin', 'main'],
+        ]
+        for cmd in cmds:
+            r = subprocess.run(cmd, cwd=repo_dir, capture_output=True, text=True)
+            if r.returncode != 0:
+                print(f"      [ERROR] {' '.join(cmd)} 失败:")
+                print(f"              {r.stderr.strip()}")
+                return False
+
+        print(f"      [OK] 已推送到 GitHub，页面将在 1~2 分钟内更新")
+        return True
+
+    except FileNotFoundError:
+        print("      [WARN] 未找到 git 命令，跳过自动推送")
+        print("             请确认 Git 已安装并加入 PATH")
+        return False
+    except Exception as e:
+        print(f"      [ERROR] 推送失败: {e}")
+        return False
+
+
+# ─────────────────────────────────────────────
 # 主流程
 # ─────────────────────────────────────────────
 
@@ -184,6 +238,8 @@ def main():
     parser = argparse.ArgumentParser(description='实习岗位 HTML 生成工具')
     parser.add_argument('--csv', type=str, default=None,
                         help='指定 CSV 文件路径（默认使用最新文件）')
+    parser.add_argument('--no-push', action='store_true',
+                        help='跳过 git push（仅本地生成 HTML）')
     args = parser.parse_args()
 
     print("=" * 52)
@@ -224,12 +280,21 @@ def main():
     )
     print(f"      [OK] 网页已生成: {HTML_OUTPUT}")
 
+    # 4. 自动 git push（可用 --no-push 跳过）
+    if not args.no_push:
+        print(f"\n[3/3] 推送到 GitHub Pages...")
+        git_push(BASE_DIR, HTML_OUTPUT)
+    else:
+        print(f"\n[3/3] 已跳过 git push（--no-push 模式）")
+
     print("\n" + "=" * 52)
     print("  生成完成！")
     print(f"  数据来源:   {os.path.basename(csv_path)}")
     print(f"  总岗位数:   {len(jobs)} 条")
     print(f"  今日新增:   {len(new_jobs)} 条")
     print(f"  网页路径:   {HTML_OUTPUT}")
+    if not args.no_push:
+        print(f"  在线地址:   https://silent-wyr.github.io/job/")
     print("=" * 52)
 
 
