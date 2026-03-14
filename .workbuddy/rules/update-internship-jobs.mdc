@@ -1,0 +1,189 @@
+---
+description: 当用户说"更新实习岗位"或"更新本周实习岗位"时触发完整的实习岗位搜索→筛选→发布工作流
+alwaysApply: false
+enabled: true
+updatedAt: 2026-03-13T17:48:33.704Z
+provider: 
+---
+
+# 更新实习岗位 — 完整工作流
+
+## 触发条件
+
+| 用户输入 | 搜索范围 |
+|---------|---------|
+| "更新实习岗位" / "更新今日实习岗位" / "刷新岗位" | 今日新发布的岗位 |
+| "更新本周实习岗位" / "更新本周岗位" | 近7天发布的岗位 |
+
+---
+
+## 工作目录
+
+`d:/myProject/findwork`
+
+---
+
+## 完整工作流（Step 1 → Step 2 → Step 3）
+
+---
+
+### Step 1：AI 精准搜索真实岗位
+
+使用 `web_search` 工具，**按以下关键词组合逐条搜索**，搜索时直接带入筛选条件，只整理符合要求的岗位：
+
+#### 今日模式搜索词（9条）
+```
+音乐运营 实习生 北京
+活动策划 实习 北京 音乐
+经纪助理 实习生 北京 招聘
+新媒体运营 实习生 北京 音乐公司
+演出策划 实习 北京 招聘
+演出统筹 实习生 北京
+国际演出 实习生 北京 招聘
+演出执行 实习 北京 音乐
+小红书 音乐 娱乐 活动运营 实习生 北京 site:shixiseng.com OR site:niuqizp.com OR site:zhaopin.com
+```
+
+> 💡 **补充说明（2026-03-14 更新）**：
+> - "国际演出/演出执行"：覆盖巡演执行类岗位，此前仅有"演出策划/统筹"导致漏网
+> - "小红书+镜像平台"：小红书校招官网（job.xiaohongshu.com）为SPA不被搜索引擎收录，需通过实习僧/牛企直聘/智联等镜像平台搜索
+
+#### 本周模式额外追加（6条）
+```
+腾讯音乐 实习生 北京 招聘
+字节跳动 音乐 实习生 北京
+网易云音乐 实习生 北京
+索尼音乐 实习生 北京
+摩登天空 实习生 北京
+太合音乐 实习生 北京
+```
+
+#### 搜索结果处理规则
+
+对每条搜索结果，**立即判断是否符合以下所有条件**，不符合直接丢弃，不写入输出：
+
+**必须满足（硬性条件）：**
+- 工作地点含"北京"
+- 岗位性质为实习（不含"全职"、"社招"、"正职"、"正式员工"、"应届生正职"）
+- 不含"暑期实习"
+- 岗位内容与音乐行业相关（运营/策划/经纪/宣传/演出/新媒体等）
+
+**尽量满足（软性条件，不满足不丢弃但影响匹配分数）：**
+- 学历要求为本科或不限
+- 毕业年份为2028届或不限
+- 每周工作天数 ≥ 3天
+
+#### 整理字段（每条岗位输出以下信息）
+
+```
+company_name       公司名称
+position_title     岗位名称
+position_type      岗位类型（音乐运营/演出策划/经纪人/新媒体运营/其他）
+location           工作地点
+education          学历要求
+graduation_year    毕业年份
+min_work_days_per_week  每周最少工作天数
+internship_type    实习类型（日常实习）
+internship_duration  实习时长
+job_responsibilities  工作职责（从描述中提取）
+skill_requirements  技能要求（从描述中提取）
+publish_date       发布日期（格式 YYYY-MM-DD，搜索结果无明确日期时填今日）
+application_email  投递邮箱（搜索结果无法获取时留空）
+source             数据来源（实习僧/BOSS直聘/小红书/微信公众号/官网等）
+source_url         原始链接
+description        岗位完整描述
+```
+
+---
+
+### Step 2：写入 CSV 文件
+
+调用以下 Python 脚本，传入 Step 1 整理好的岗位数据：
+
+```python
+# AI 将 Step 1 整理好的岗位列表赋值给 raw_jobs，然后调用：
+import sys
+sys.path.insert(0, 'd:/myProject/findwork/.codebuddy/skills/job-info-scraper/scripts')
+from scraper import process_ai_results
+
+csv_path = process_ai_results(raw_jobs)
+```
+
+或直接手动构造 CSV 写入（当 Python 环境异常时的备选）：
+
+```
+输出目录：d:/myProject/findwork/.codebuddy/skills/job-info-scraper/output/
+文件命名：job_results_YYYYMMDD_HHMMSS.csv（带时间戳，不覆盖历史）
+编码：UTF-8 BOM（utf-8-sig，Excel 可直接打开）
+去重规则：同公司+相似岗位名（相似度>50%）视为重复，跳过不写入
+```
+
+CSV 列顺序（固定）：
+```
+公司名称, 优先级, 岗位名称, 岗位类型, 工作地点,
+学历要求, 毕业年份, 每周最少工作天数, 实习类型, 实习时长,
+工作职责, 技能要求, 匹配分数, 发布日期, 投递邮箱, 数据来源, 原始链接
+```
+
+优先级判断规则（写入时自动判断）：
+- P0：腾讯/腾讯音乐/QQ音乐/酷狗/字节跳动/抖音/网易云音乐/网易
+- P1：索尼音乐/环球音乐/华纳音乐
+- P2：太合音乐/摩登天空/风华秋实/滚石唱片/种梦音乐
+- P3：其他公司
+
+---
+
+### Step 3：生成 HTML 并展示
+
+运行以下命令生成页面：
+
+```bash
+cd d:/myProject/findwork
+python run_all.py
+```
+
+`run_all.py` 会自动读取 output 目录下最新的 CSV 文件生成页面。
+
+生成后：
+1. 使用 `preview_url` 工具打开 `d:/myProject/findwork/.codebuddy/skills/job-info-publisher/index.html`
+2. 向用户汇报：
+   - 本次搜索到符合条件的岗位数量
+   - 今日新增数量
+   - CSV 文件路径（文件名含时间戳）
+   - HTML 文件路径
+
+---
+
+## 数据流总览
+
+```
+web_search（带筛选条件）
+    ↓
+AI 实时判断是否符合条件，整理字段
+    ↓
+scraper.process_ai_results() → job_results_时间戳.csv（追加，不覆盖历史）
+    ↓
+python run_all.py → 读取最新CSV → index.html
+    ↓
+preview_url 预览 + 汇报结果
+```
+
+---
+
+## 关键配置文件
+
+| 文件 | 作用 |
+|------|------|
+| `d:/myProject/findwork/.codebuddy/skills/job-info-scraper/assets/config/filter_rules.json` | 筛选规则、公司优先级、评分规则 |
+| `d:/myProject/findwork/.codebuddy/skills/job-info-scraper/scripts/scraper.py` | CSV 写入工具（process_ai_results 函数） |
+| `d:/myProject/findwork/run_all.py` | CSV → HTML 转换器 |
+| `d:/myProject/findwork/.codebuddy/skills/job-info-publisher/assets/templates/job_portal.html` | HTML 模板 |
+
+---
+
+## 注意事项
+
+- **追加模式**：每次搜索结果追加到新 CSV，不清空历史；同公司+相似职位自动去重
+- **过期规则**：发布超过 15 天的岗位在页面上灰色显示（仍保留，不删除）
+- **邮箱缺失**：BOSS直聘等平台不在搜索摘要中暴露邮箱，`application_email` 留空，页面显示"请点击查看原文获取投递方式"
+- **历史 CSV**：output 目录下保留所有历史 CSV，文件名含时间戳，可随时查阅
